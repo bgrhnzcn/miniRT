@@ -6,7 +6,7 @@
 #    By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/20 19:51:59 by buozcan          ###   ########.fr        #
+#    Updated: 2024/09/16 18:14:49 by buozcan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,19 +90,7 @@ INC = ./inc
 LIB_DIR = ./lib
 
 # Source Files
-SRCS = $(SRC)/cub3d.c \
-	$(SRC)/draw.c \
-	$(SRC)/update.c \
-	$(SRC)/init.c \
-	$(SRC)/controller.c \
-	$(SRC)/raycast.c \
-	$(SRC)/texture.c \
-	$(SRC)/start.c \
-	$(SRC)/parse_control.c \
-	$(SRC)/parse_utils.c \
-	$(SRC)/parse_taking_map.c \
-	$(SRC)/parse_map_control.c \
-	$(SRC)/map_control_utils.c \
+SRCS = $(SRC)/main.c $(SRC)/reading_file.c $(SRC)/take_values.c $(SRC)/parse_utils.c
 
 # Object Directory Creation
 $(OBJ):
@@ -141,12 +129,8 @@ LIBFT_COMP = awk '{ \
 		printf "$(BOLD_GREEN)Libft Compilation Successfull!$(RESET)\n";\
 	fi
 
-# Libft Directory Creation
-$(LIBFT_DIR):
-	@git clone git@github.com:bgrhnzcn/Libft.git $(LIBFT_DIR)
-
 # Libft Compilation
-$(LIBFT): $(LIBFT_DIR)
+$(LIBFT):
 	@printf "$(BOLD_CYAN)Compiling Libft...\n"
 	@cd $(LIBFT_DIR) && $(LIBFT_COMP)
 
@@ -204,7 +188,7 @@ ifeq ($(OS), Linux) # Linux
 	@echo "Downloading MiniLib x For Linux..."
 	@curl -s https://cdn.intra.42.fr/document/document/28880/minilibx-linux.tgz -o $(MLX_DIR).tgz
 else ifeq ($(OS), Darwin) # MacOS
-	@echo "Downloadig MiniLibx For MacOS..."
+	@echo "Downloading MiniLibx For MacOS..."
 	@curl -s https://cdn.intra.42.fr/document/document/28881/minilibx_opengl.tgz -o $(MLX_DIR).tgz
 endif # Common
 	@mkdir $(MLX_DIR)
@@ -235,10 +219,10 @@ $(MLX): $(MLX_DIR)
 ################################################################################
 
 $(NAME): $(OBJ) $(MLX) $(LIBFT) $(GNL) $(OBJS)
-	@printf "$(BOLD_GREEN)Compiling $(NAME)...\n"
+	@printf "$(BOLD_GREEN)Compiling CUB3D...\n"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $@ $(MLX) $(LIBFT) $(GNL) $(MLX_FLAGS) \
-		&& printf "$(BOLD_GREEN)$(NAME) Compilation Successfull!\n$(RESET)" \
-		|| printf "$(BOLD_RED)$(NAME) Compilation Failed!\n$(RESET)"
+		&& printf "$(BOLD_GREEN)CUB3D Compilation Successfull!\n$(RESET)" \
+		|| printf "$(BOLD_RED)CUB3D Compilation Failed!\n$(RESET)"
 
 fclean: header clean
 	@rm -f $(NAME)
