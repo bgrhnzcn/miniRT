@@ -22,7 +22,7 @@ typedef struct s_ambient
 {
 	float strength; // [0.0, 1.0]
 	t_color color; // A:[0, 0] R:[0, 255] G:[0, 255] B:[0, 255]
-}
+}	t_ambient;
 
 typedef struct s_light
 {
@@ -58,6 +58,9 @@ typedef struct s_parse
 {
 	char		**scene_file;
 	char		*scene_path;
+	t_ambient	*ambient;
+	t_camera	*camera;
+	t_light		*light;
 }	t_parse;
 
 int     control_extension(char *path);
