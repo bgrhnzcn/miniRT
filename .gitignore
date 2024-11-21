@@ -53,4 +53,4 @@ dkms.conf
 
 lib/
 obj/
-./miniRT
+miniRT
