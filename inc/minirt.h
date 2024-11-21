@@ -21,5 +21,6 @@ int     control_extension(char *path);
 int     read_rt(char *path);
 int		take_values(t_parse *parse);
 int		string_compare(char *str, char *str1);
+int		count_dpointer(char **str);
 
 #endif
