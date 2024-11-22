@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
+#    By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/21 21:56:29 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/22 21:41:46 by buozcan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ BOLD_BLUE = \033[1;34m
 BOLD_MAGENTA = \033[1;35m
 BOLD_CYAN = \033[1;36m
 BOLD_WHITE = \033[1;37m
+
+PLACE_HOLDER = .place_holder
 
 ################################################################################
 #                                                                              #
@@ -107,11 +109,14 @@ $(LIB_DIR):
 # Object Files
 OBJS = $(SRCS:$(SRC)/%.c=$(OBJ)/%.o)
 
+mess:
+	@printf "$(BOLD_WHITE)Building $(BOLD_CYAN)$(NAME)$(BOLD_WHITE):\n"
+
 # Object Files Compilation
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< &&\
-	(echo $^ | awk -F "/" '{printf "\t$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\n$(RESET)", "Compiling" , $$2, "[OK]"; fflush()}') ||\
-	(echo $^ | awk -F "/" '{printf "\t$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_RED)%-4s\n$(RESET)", "FAILED" , $$2, "[KO]"; fflush()}'; exit 1)
+	(echo $< | awk -F "/" '{printf "$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\n$(RESET)", "Compiling" , $$2, "[OK]"; fflush()}') ||\
+	(echo $< | awk -F "/" '{printf "$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_RED)%-4s\n$(RESET)", "FAILED" , $$2, "[KO]"; fflush()}'; exit 1)
 
 ################################################################################
 #                                                                              #
@@ -235,10 +240,9 @@ $(MLX): | $(MLX_DIR)
 ################################################################################
 
 $(NAME): $(MLX) $(LIBFT) $(GNL) $(OBJS)
-	@printf "$(BOLD_WHITE)Building $(BOLD_CYAN)$(NAME)$(BOLD_WHITE):\n"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $@ $(MLX) $(LIBFT) $(GNL) $(MLX_FLAGS) \
-		&& printf "\t$(BOLD_WHITE)%-9s $(BOLD_CYAN)%-30s $(BOLD_GREEN)%-4s\n$(RESET)" "Linking" "$(NAME)" "[OK]"\
-		|| printf "\t$(BOLD_WHITE)%-9s $(BOLD_CYAN)%-30s $(BOLD_RED)%-4s\n$(RESET)" "Linking" "$(NAME)" "[KO]"
+		&& printf "$(BOLD_WHITE)%-9s $(BOLD_CYAN)%-30s $(BOLD_GREEN)%-4s\n$(RESET)" "Linking" "$(NAME)" "[OK]"\
+		|| printf "$(BOLD_WHITE)%-9s $(BOLD_CYAN)%-30s $(BOLD_RED)%-4s\n$(RESET)" "Linking" "$(NAME)" "[KO]"
 
 fclean: clean
 	@rm -f $(NAME)
