@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-TEST_FILE = scenes/test.rt
+TEST_FILE = scenes/deneme.rt
 
 ################################################################################
 #                                                                              #
@@ -109,7 +109,7 @@ OBJS = $(SRCS:$(SRC)/%.c=$(OBJ)/%.o)
 
 # Object Files Compilation
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
-	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $^ &&\
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< &&\
 	(echo $^ | awk -F "/" '{printf "\t$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\n$(RESET)", "Compiling" , $$2, "[OK]"; fflush()}') ||\
 	(echo $^ | awk -F "/" '{printf "\t$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_RED)%-4s\n$(RESET)", "FAILED" , $$2, "[KO]"; fflush()}'; exit 1)
 
@@ -234,16 +234,8 @@ $(MLX): | $(MLX_DIR)
 #                                                                              #
 ################################################################################
 
-.PHONY: obj_message
-ifneq ($(shell ls $(NAME) 2> /dev/null), $(NAME))
-obj_message:
+$(NAME): $(MLX) $(LIBFT) $(GNL) $(OBJS)
 	@printf "$(BOLD_WHITE)Building $(BOLD_CYAN)$(NAME)$(BOLD_WHITE):\n"
-else
-obj_message:
-	@printf "$(BOLD_WHITE)Rebuilding $(BOLD_CYAN)$(NAME)$(BOLD_WHITE):\n"
-endif
-
-$(NAME): $(MLX) $(LIBFT) $(GNL) | obj_message $(OBJS)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $@ $(MLX) $(LIBFT) $(GNL) $(MLX_FLAGS) \
 		&& printf "\t$(BOLD_WHITE)%-9s $(BOLD_CYAN)%-30s $(BOLD_GREEN)%-4s\n$(RESET)" "Linking" "$(NAME)" "[OK]"\
 		|| printf "\t$(BOLD_WHITE)%-9s $(BOLD_CYAN)%-30s $(BOLD_RED)%-4s\n$(RESET)" "Linking" "$(NAME)" "[KO]"
@@ -276,8 +268,8 @@ credit:
 		}'
 
 test: $(NAME)
-	@printf "$(BOLD_WHITE)Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...\n"
-	@./$(NAME) scenes/test.rt
+	@printf "$(BOLD_WHITE)Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...$(RESET)\n"
+	@./$(NAME) $(TEST_FILE)
 
 help:
 	@awk 'BEGIN{ \
@@ -291,4 +283,4 @@ help:
 		printf "\t$(BOLD_CYAN)make test: $(BOLD_WHITE)Runs the project with test.rt scene.\n"; \
 	}'
 
-.PHONY: all re fclean clean run debug header
+.PHONY: all re fclean clean run credit test help

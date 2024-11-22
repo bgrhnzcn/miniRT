@@ -11,6 +11,13 @@
 
 //parse
 
+typedef enum e_component_type
+{
+	COMP_LIGHT,
+	COMP_CAMERA,
+	COMP_AMBIENT
+}	t_component_type;
+
 typedef struct s_camera
 {
 	t_vec3	position; // x, y, z
@@ -68,5 +75,7 @@ int     read_rt(char *path);
 int		take_values(t_parse *parse);
 int		string_compare(char *str, char *str1);
 int		count_dpointer(char **str);
-
+void	free_dpointer(char **str);
+float	ft_atof(char *str);
+int		control_number(char *str);
 #endif
