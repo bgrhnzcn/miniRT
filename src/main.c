@@ -12,5 +12,6 @@ int main(int ac, char *av[])
 	if (init_display(&rt.mlx))
 		return (printf("Failed to initialize display.\n"));
 	mlx_hook(rt.mlx.win.win, 17, 0, terminate_program, &rt);
+	mlx_loop_hook(rt.mlx.mlx, update_frame, &rt);
 	mlx_loop(rt.mlx.mlx);
 }

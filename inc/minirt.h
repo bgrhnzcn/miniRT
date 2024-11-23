@@ -8,11 +8,11 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <sys/time.h>
+# include <string.h>
 
 # define WIDTH 800
 # define HEIGHT 600
-
-//parse
 
 typedef enum e_component_type
 {
@@ -83,13 +83,21 @@ typedef struct s_scene
 	t_light		light;
 }	t_scene;
 
+typedef struct s_timer
+{
+	struct timeval	start;
+	struct timeval	end;
+}	t_timer;
+
 typedef struct s_rt
 {
 	t_mlx	mlx;
 	t_parse	parse;
 	t_scene	scene;
+	t_timer	timer;
 }	t_rt;
 
+//parse
 int		control_extension(char *path);
 int		read_rt(char *path);
 int		take_values(t_parse *parse);
@@ -102,10 +110,18 @@ int		control_number(char *str);
 //display
 int		init_display(t_mlx *mlx);
 int		terminate_display(t_mlx *mlx);
+
 //display_inputs
 int		terminate_program(t_rt *rt);
 
+//update
+int		update_frame(t_rt *rt);
+
+//render
+void	render(t_rt *rt);
+
 //debug
 void	print_debug(void *comp, t_component_type type);
+void	display_debug_time(t_rt *rt);
 
 #endif
