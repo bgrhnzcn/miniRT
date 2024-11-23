@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+         #
+#    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/22 21:41:46 by buozcan          ###   ########.fr        #
+#    Updated: 2024/11/23 17:42:33 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ NAME = miniRT
 CC = gcc
 
 # Compiler Flags
-CFLAGS = -g -Wall -Wextra -Werror -O3
+CFLAGS = -g -Wall -Wextra -Werror
 
 # Make Flags
 MAKEFLAGS += --no-print-directory

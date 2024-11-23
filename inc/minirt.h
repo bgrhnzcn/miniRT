@@ -9,6 +9,9 @@
 # include <stdio.h>
 # include <fcntl.h>
 
+# define WIDTH 800
+# define HEIGHT 600
+
 //parse
 
 typedef enum e_component_type
@@ -70,12 +73,30 @@ typedef struct s_parse
 	t_light		*light;
 }	t_parse;
 
-int     control_extension(char *path);
-int     read_rt(char *path);
+typedef struct s_scene
+{
+	t_ambient	ambient;
+	t_camera	camera;
+	t_light		light;
+}	t_scene;
+
+typedef struct s_rt
+{
+	t_mlx	mlx;
+	t_parse	parse;
+	t_scene	scene;
+}	t_rt;
+
+int		control_extension(char *path);
+int		read_rt(char *path);
 int		take_values(t_parse *parse);
 int		string_compare(char *str, char *str1);
 int		count_dpointer(char **str);
 void	free_dpointer(char **str);
 float	ft_atof(char *str);
 int		control_number(char *str);
+
+//init_display
+int		init_display(t_rt *rt);
+
 #endif
