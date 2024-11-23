@@ -45,7 +45,7 @@ int	parse_light(t_parse *parse, char **line)
 		parse->light->color.blue = (unsigned char)ft_atof(rgb[2]);
 		parse->light->brightness = ft_atof(line[2]);
 	}
-	//print_debug(parse->light, COMP_LIGHT);
+	print_debug(parse->light, COMP_LIGHT);
 	return (EXIT_SUCCESS);
 }
 
@@ -105,7 +105,7 @@ int	parse_camera(t_parse *parse, char **line)
 		parse->camera->orientation.z = (unsigned char)ft_atof(orientation[2]);
 		parse->camera->fov = ft_atof(line[3]);
 	}
-	//print_debug(parse->camera, COMP_CAMERA);
+	print_debug(parse->camera, COMP_CAMERA);
 	return (EXIT_SUCCESS);
 }
 
