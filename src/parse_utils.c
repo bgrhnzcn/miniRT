@@ -17,6 +17,9 @@ float ft_atof(char *str)
 	float	res;
 	int		i;
 
+	//Added for not pointed values. When there is no point, ft_atoi is more accurate.
+	if (!ft_strchr(str, '.'))
+		return (ft_atoi(str));
 	res = 0;
 	res = ft_atoi(str);
 	i = -1;
