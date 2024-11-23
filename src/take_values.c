@@ -1,43 +1,5 @@
 #include "minirt.h"
 
-void	print_debug(void *comp, t_component_type type)
-{
-	if (type == COMP_LIGHT) //light
-	{
-		t_light *light;
-		light = comp;
-		printf("Brightness: %f\n", light->brightness);
-		printf("Position x: %f\n", light->position.x);
-		printf("Position y: %f\n", light->position.y);
-		printf("Position z: %f\n", light->position.z);
-		printf("Color Red: %u\n", light->color.red);
-		printf("Color Green: %u\n", light->color.green);
-		printf("Color Blue: %u\n", light->color.blue);
-	}
-	else if (type == COMP_CAMERA) //camera
-	{
-		t_camera *camera;
-		camera = comp;
-		printf("Field of view: %f\n", camera->fov);
-		printf("Position x: %f\n", camera->position.x);
-		printf("Position y: %f\n", camera->position.y);
-		printf("Position z: %f\n", camera->position.z);
-		printf("Orientation x: %f\n", camera->orientation.x);
-		printf("Orientation y: %f\n", camera->orientation.y);
-		printf("Orientation z: %f\n", camera->orientation.z);
-	}
-	else if (type == COMP_AMBIENT) //ambient
-	{
-		t_ambient *ambient;
-		ambient = comp;
-		printf("Strength: %f\n", ambient->strength);
-		printf("Color Red: %u\n", ambient->color.red);
-		printf("Color Green: %u\n", ambient->color.green);
-		printf("Color Blue: %u\n", ambient->color.blue);
-	}
-
-}
-
 /*
 int parse_cylinder(t_parse *parse, char **line)
 {
@@ -55,10 +17,10 @@ int parse_plane(t_parse *parse, char **line)
 }
 */
 
-int parse_light(t_parse *parse, char **line)
+int	parse_light(t_parse *parse, char **line)
 {
-	char **coordinates;
-	char **rgb;
+	char	**coordinates;
+	char	**rgb;
 
 	coordinates = ft_split(line[1], ',');
 	rgb = ft_split(line[3], ',');
@@ -88,7 +50,7 @@ int parse_light(t_parse *parse, char **line)
 }
 
 
-int parse_ambient(t_parse *parse, char **line)
+int	parse_ambient(t_parse *parse, char **line)
 {
 	char	**rgb;
 
@@ -115,10 +77,10 @@ int parse_ambient(t_parse *parse, char **line)
 }
 
 
-int parse_camera(t_parse *parse, char **line)
+int	parse_camera(t_parse *parse, char **line)
 {
-	char **coordinates;
-	char **orientation;
+	char	**coordinates;
+	char	**orientation;
 
 	coordinates = ft_split(line[1], ',');
 	orientation = ft_split(line[2], ',');
@@ -148,7 +110,7 @@ int parse_camera(t_parse *parse, char **line)
 }
 
 
-int control_name(t_parse *parse, char **line)
+int	control_name(t_parse *parse, char **line)
 {
 	if ((!string_compare(line[0], "A") && parse->ambient)
 	|| (!string_compare(line[0], "C") && parse->camera)
@@ -184,10 +146,10 @@ int control_name(t_parse *parse, char **line)
 	return (EXIT_SUCCESS);
 }
 
-int take_values(t_parse *parse)
+int	take_values(t_parse *parse)
 {
-	char    **line;
-	int     i;
+	char	**line;
+	int		i;
 
 	i = -1;
 	parse->ambient = NULL;
