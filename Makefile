@@ -6,7 +6,7 @@
 #    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/23 17:42:33 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/24 00:06:35 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,9 @@ SRCS = $(SRC)/main.c \
 	   $(SRC)/parse_utils.c \
 	   $(SRC)/reading_file.c \
 	   $(SRC)/take_values.c \
+	   $(SRC)/debug.c \
+	   $(SRC)/display.c \
+	   $(SRC)/display_inputs.c \
 
 # Object Directory Creation
 $(OBJ):

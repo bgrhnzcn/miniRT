@@ -18,7 +18,10 @@ typedef enum e_component_type
 {
 	COMP_LIGHT,
 	COMP_CAMERA,
-	COMP_AMBIENT
+	COMP_AMBIENT,
+	COMP_SPHERE,
+	COMP_PLANE,
+	COMP_CYLINDER
 }	t_component_type;
 
 typedef struct s_camera
@@ -96,7 +99,13 @@ void	free_dpointer(char **str);
 float	ft_atof(char *str);
 int		control_number(char *str);
 
-//init_display
-int		init_display(t_rt *rt);
+//display
+int		init_display(t_mlx *mlx);
+int		terminate_display(t_mlx *mlx);
+//display_inputs
+int		terminate_program(t_rt *rt);
+
+//debug
+void	print_debug(void *comp, t_component_type type);
 
 #endif
