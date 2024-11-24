@@ -95,6 +95,7 @@ typedef struct s_rt
 	t_parse	parse;
 	t_scene	scene;
 	t_timer	timer;
+	t_bool	key_states[MAX_KEY_COUNT];
 }	t_rt;
 
 //parse
@@ -113,6 +114,8 @@ int		terminate_display(t_mlx *mlx);
 
 //display_inputs
 int		terminate_program(t_rt *rt);
+int		key_press(int keycode, t_rt *rt);
+int		key_release(int keycode, t_rt *rt);
 
 //update
 int		update_frame(t_rt *rt);
