@@ -6,7 +6,7 @@
 #    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/24 16:13:35 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/24 16:15:25 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -291,9 +291,10 @@ help:
 		printf "\t$(BOLD_CYAN)make re: $(BOLD_WHITE)Rebuilds the project.\n"; \
 		printf "\t$(BOLD_CYAN)make clean: $(BOLD_WHITE)Removes object files.\n"; \
 		printf "\t$(BOLD_CYAN)make fclean: $(BOLD_WHITE)Removes object files and executable.\n"; \
+		printf "\t$(BOLD_CYAN)make update: $(BOLD_WHITE)Updates the project and dependencies from GitHub.\n"; \
+		printf "\t$(BOLD_CYAN)make test: $(BOLD_WHITE)Runs the project with test.rt scene.\n"; \
 		printf "\t$(BOLD_CYAN)make credit: $(BOLD_WHITE)Shows the project credits.\n"; \
 		printf "\t$(BOLD_CYAN)make help: $(BOLD_WHITE)Shows this help message.\n"; \
-		printf "\t$(BOLD_CYAN)make test: $(BOLD_WHITE)Runs the project with test.rt scene.\n"; \
 	}'
 
 .PHONY: all re fclean clean run credit test help
