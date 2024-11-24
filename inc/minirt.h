@@ -10,12 +10,14 @@
 # include <fcntl.h>
 # include <sys/time.h>
 # include <string.h>
+# include "darray.h"
 
 # define WIDTH 800
 # define HEIGHT 600
 
 typedef enum e_component_type
 {
+	COMP_FAIL = -1,
 	COMP_LIGHT,
 	COMP_CAMERA,
 	COMP_AMBIENT,
@@ -30,6 +32,7 @@ typedef struct s_camera
 	t_vec3	orientation; // x, y, z normalized
 	float	fov; // [0, 180]
 }	t_camera;
+
 
 typedef struct s_ambient
 {
@@ -67,20 +70,16 @@ typedef struct s_cylinder
 	t_color	color; // A:[0, 0] R:[0, 255] G:[0, 255] B:[0, 255]
 }	t_cylinder;
 
-typedef struct s_parse
-{
-	char		**scene_file;
-	char		*scene_path;
-	t_ambient	*ambient;
-	t_camera	*camera;
-	t_light		*light;
-}	t_parse;
-
 typedef struct s_scene
 {
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
+	char		*scene_path;
+	t_darray	*scene_file;
+	t_darray	*spheres;
+	t_darray	*planes;
+	t_darray	*cylinders;
 }	t_scene;
 
 typedef struct s_timer
@@ -89,27 +88,47 @@ typedef struct s_timer
 	struct timeval	end;
 }	t_timer;
 
+typedef struct s_check
+{
+	t_bool		ambient;
+	t_bool		camera;
+	t_bool		light;
+}	t_check;
+
 typedef struct s_rt
 {
 	t_mlx	mlx;
-	t_parse	parse;
+	t_check	check;
 	t_scene	scene;
 	t_timer	timer;
 	t_bool	key_states[MAX_KEY_COUNT];
 }	t_rt;
 
-//parse
-int		control_extension(char *path);
-int		read_rt(char *path);
-int		take_values(t_parse *parse);
-int		string_compare(char *str, char *str1);
+//utils
 int		count_dpointer(char **str);
 void	free_dpointer(char **str);
 float	ft_atof(char *str);
-int		control_number(char *str);
+int		cntrl_nbr(char *str);
+int		parse_color(t_color *color, char *line);
+int		parse_vec3(t_vec3 *vec3, char *line);
+
+//scene
+int		read_scene(t_rt *rt);
+int		parse_scene(t_rt *rt);
+int		control_extension(char *path);
+
+//component
+int		parse_ambient(t_rt *rt, char *line);
+int		parse_camera(t_rt *rt, char *line);
+int		parse_light(t_rt *rt, char *line);
+
+//u_component
+int		parse_sphere(t_rt *rt, char *line);
+int		parse_plane(t_rt *rt, char *line);
+int		parse_cylinder(t_rt *rt, char *line);
 
 //display
-int		init_display(t_mlx *mlx);
+int		init_display(t_rt *rt);
 int		terminate_display(t_mlx *mlx);
 
 //display_inputs
@@ -126,5 +145,6 @@ void	render(t_rt *rt);
 //debug
 void	print_debug(void *comp, t_component_type type);
 void	display_debug_time(t_rt *rt);
+void	debug_print_scene(t_rt *rt);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 23:36:19 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/24 01:11:28 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/11/25 00:16:40 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	print_debug_ambient(t_ambient *ambient)
 static void	print_debug_sphere(t_sphere *sphere)
 {
 	printf("Sphere:\n");
-	printf("\tRadius:\t%f\n", sphere->radius);
+	printf("\tRadius:\t\t%f\n", sphere->radius);
 	printf("\tPosition:\n");
 	printf("\t\tX:\t%f\n", sphere->position.x);
 	printf("\t\tY:\t%f\n", sphere->position.y);
@@ -85,7 +85,7 @@ static void	print_debug_cylinder(t_cylinder *cylinder)
 {
 	printf("Cylinder:\n");
 	printf("\tDiameter:\t%f\n", cylinder->diameter);
-	printf("\tHeight:\t%f\n", cylinder->height);
+	printf("\tHeight:\t\t%f\n", cylinder->height);
 	printf("\tPosition:\n");
 	printf("\t\tX:\t%f\n", cylinder->position.x);
 	printf("\t\tY:\t%f\n", cylinder->position.y);
@@ -102,17 +102,17 @@ static void	print_debug_cylinder(t_cylinder *cylinder)
 
 void	print_debug(void *comp, t_component_type type)
 {
-	if (type == COMP_LIGHT) //light
+	if (type == COMP_LIGHT)
 		print_debug_light((t_light *)comp);
-	else if (type == COMP_CAMERA) //camera
+	else if (type == COMP_CAMERA)
 		print_debug_camera((t_camera *)comp);
-	else if (type == COMP_AMBIENT) //ambient
+	else if (type == COMP_AMBIENT)
 		print_debug_ambient((t_ambient *)comp);
-	else if (type == COMP_SPHERE) //sphere
+	else if (type == COMP_SPHERE)
 		print_debug_sphere((t_sphere *)comp);
-	else if (type == COMP_PLANE) //plane
+	else if (type == COMP_PLANE)
 		print_debug_plane((t_plane *)comp);
-	else if (type == COMP_CYLINDER) //cylinder
+	else if (type == COMP_CYLINDER)
 		print_debug_cylinder((t_cylinder *)comp);
 }
 
@@ -127,7 +127,22 @@ static double	get_frame_time(t_timer *timer)
 
 void	display_debug_time(t_rt *rt)
 {
-	char str[100];
+	char	str[100];
+
 	sprintf(str, "Frame time: %.3fms", get_frame_time(&rt->timer));
 	mlx_string_put(rt->mlx.mlx, rt->mlx.win.win, 10, 20, 0xFFFFFF, str);
+}
+
+void	debug_print_scene(t_rt *rt)
+{
+	int		i;
+	char	**lines;
+
+	i = 0;
+	lines = rt->scene.scene_file->data;
+	while (i < rt->scene.scene_file->size)
+	{
+		printf("%s\n", lines[i]);
+		i++;
+	}
 }

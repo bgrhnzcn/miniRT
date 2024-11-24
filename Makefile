@@ -6,7 +6,7 @@
 #    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/24 16:21:54 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/24 23:08:16 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,13 +96,16 @@ LIB_DIR = ./lib
 # Source Files
 SRCS = $(SRC)/main.c \
 	   $(SRC)/parse_utils.c \
-	   $(SRC)/reading_file.c \
-	   $(SRC)/take_values.c \
+	   $(SRC)/parse_data.c \
 	   $(SRC)/debug.c \
 	   $(SRC)/display.c \
 	   $(SRC)/display_inputs.c \
 	   $(SRC)/update.c \
 	   $(SRC)/renderer.c \
+	   $(SRC)/scene.c \
+	   $(SRC)/component.c \
+	   $(SRC)/u_component.c \
+	   $(SRC)/darray.c \
 
 # Object Directory Creation
 $(OBJ):
@@ -113,9 +116,6 @@ $(LIB_DIR):
 
 # Object Files
 OBJS = $(SRCS:$(SRC)/%.c=$(OBJ)/%.o)
-
-mess:
-	@printf "$(BOLD_WHITE)Building $(BOLD_CYAN)$(NAME)$(BOLD_WHITE):\n"
 
 # Object Files Compilation
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
@@ -264,6 +264,19 @@ clean:
 
 re: fclean all
 
+test: $(NAME)
+	@printf "$(BOLD_WHITE)Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...$(RESET)\n"
+	@./$(NAME) $(TEST_FILE)
+
+leak: $(NAME)
+	@printf "$(BOLD_WHITE)Leak: Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...$(RESET)\n"
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(TEST_FILE)
+
+update:
+	@printf "$(BOLD_GREEN)Updating Project:\n" && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
+	@printf "$(BOLD_GREEN)Updating Libft:\n" && cd lib/libft && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
+	@printf "$(BOLD_GREEN)Updating Get_Next_Line:\n" && cd lib/get_next_line && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
+
 credit:
 	@awk 'BEGIN{ \
 		printf "$(BOLD_RED)%.*s\n$(RESET)", 60, $(BAR); \
@@ -275,15 +288,6 @@ credit:
 		printf "$(BOLD_RED)#%.*s#\n$(RESET)", 48, $(SPACES); \
 		printf "$(BOLD_RED)%.*s\n$(RESET)", 60, $(BAR); \
 		}'
-
-test: $(NAME)
-	@printf "$(BOLD_WHITE)Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...$(RESET)\n"
-	@./$(NAME) $(TEST_FILE)
-
-update:
-	@printf "$(BOLD_GREEN)Updating Project:\n" && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
-	@printf "$(BOLD_GREEN)Updating Libft:\n" && cd lib/libft && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
-	@printf "$(BOLD_GREEN)Updating Get_Next_Line:\n" && cd lib/get_next_line && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
 
 help:
 	@awk 'BEGIN{ \

@@ -1,23 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 22:31:29 by bgrhnzcn          #+#    #+#             */
+/*   Updated: 2024/11/25 00:15:03 by bgrhnzcn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-int	control_number(char *str)
+int	cntrl_nbr(char *str)
 {
 	int	i;
 
 	i = -1;
 	while (str[++i])
 		if (str[i] != '-' && str[i] != '+' && str[i] != '.'
-		&& !(str[i] >= '0' && str[i] <= '9'))
+			&& !(str[i] >= '0' && str[i] <= '9'))
 			return (EXIT_FAILURE);
+	if (ft_strchr(str, '.') != ft_strrchr(str, '.'))
+		return (EXIT_FAILURE);
+	i = 0;
+	while (str[++i])
+	{
+		if (str[i] != '-' || str[i] != '+')
+			break ;
+		i++;
+	}
+	if (ft_strchr(str + i, '-') != NULL)
+		return (EXIT_FAILURE);
+	if (ft_strchr(str + i, '+') != NULL)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-float ft_atof(char *str)
+float	ft_atof(char *str)
 {
 	float	res;
 	int		i;
 
-	//Added for not pointed values. When there is no point, ft_atoi is more accurate.
 	if (!ft_strchr(str, '.'))
 		return (ft_atoi(str));
 	res = 0;
@@ -43,20 +67,12 @@ void	free_dpointer(char **str)
 	free (str);
 }
 
-int count_dpointer(char **str)
+int	count_dpointer(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
 		i++;
 	return (i);
-}
-
-int string_compare(char *str, char *str1)
-{
-	if (!ft_strncmp(str, str1, ft_strlen(str))
-		&& !ft_strncmp(str, str1, ft_strlen(str1)))
-		return (EXIT_SUCCESS);
-	return (EXIT_FAILURE);
 }
