@@ -6,7 +6,7 @@
 #    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/24 00:55:26 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/24 16:13:35 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -279,6 +279,10 @@ credit:
 test: $(NAME)
 	@printf "$(BOLD_WHITE)Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...$(RESET)\n"
 	@./$(NAME) $(TEST_FILE)
+
+update:
+	@git pull
+	@git submodule update --init --recursive
 
 help:
 	@awk 'BEGIN{ \
