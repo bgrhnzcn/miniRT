@@ -6,7 +6,7 @@
 #    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/24 16:17:02 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/24 16:21:54 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -281,9 +281,9 @@ test: $(NAME)
 	@./$(NAME) $(TEST_FILE)
 
 update:
-	@git pull
-	@cd lib/libft && git pull
-	@cd lib/get_next_line && git pull
+	@printf "$(BOLD_GREEN)Updating Project:\n" && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
+	@printf "$(BOLD_GREEN)Updating Libft:\n" && cd lib/libft && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
+	@printf "$(BOLD_GREEN)Updating Get_Next_Line:\n" && cd lib/get_next_line && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
 
 help:
 	@awk 'BEGIN{ \
