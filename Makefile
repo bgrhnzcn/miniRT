@@ -6,7 +6,7 @@
 #    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/24 16:15:25 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/24 16:17:02 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -282,7 +282,8 @@ test: $(NAME)
 
 update:
 	@git pull
-	@git submodule update --init --recursive
+	@cd lib/libft && git pull
+	@cd lib/get_next_line && git pull
 
 help:
 	@awk 'BEGIN{ \
