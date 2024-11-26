@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:52:43 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/25 00:15:28 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:31:40 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int ac, char *av[])
 	ft_memset(&rt, 0, sizeof(t_rt));
 	if (ac != 2)
 		return (printf("./miniRT <path-to-scene>\n"));
-	else if (control_extension(av[1]) == EXIT_FAILURE)
+	else if (control_extension(av[1]))
 		return (printf("Extension of scene file must be '.rt' format.\n"));
 	if (init_scene(&rt, av[1]))
 		return (EXIT_FAILURE);
