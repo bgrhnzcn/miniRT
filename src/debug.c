@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 23:36:19 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/25 00:16:40 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:08:43 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	print_debug_light(t_light *light)
 	printf("\t\tY:\t%f\n", light->position.y);
 	printf("\t\tZ:\t%f\n", light->position.z);
 	printf("\tColor:\n");
-	printf("\t\tRed:\t%u\n", light->color.red);
-	printf("\t\tGreen:\t%u\n", light->color.green);
-	printf("\t\tBlue:\t%u\n", light->color.blue);
+	printf("\t\tRed:\t%f\n", light->color.r * 255);
+	printf("\t\tGreen:\t%f\n", light->color.g * 255);
+	printf("\t\tBlue:\t%f\n", light->color.b * 255);
 }
 
 static void	print_debug_camera(t_camera *camera)
@@ -34,10 +34,18 @@ static void	print_debug_camera(t_camera *camera)
 	printf("\t\tX:\t%f\n", camera->position.x);
 	printf("\t\tY:\t%f\n", camera->position.y);
 	printf("\t\tZ:\t%f\n", camera->position.z);
-	printf("\tOrientation:\n");
+	printf("\tForward:\n");
 	printf("\t\tX:\t%f\n", camera->orientation.x);
 	printf("\t\tY:\t%f\n", camera->orientation.y);
 	printf("\t\tZ:\t%f\n", camera->orientation.z);
+	printf("\tUp:\n");
+	printf("\t\tX:\t%f\n", camera->up.x);
+	printf("\t\tY:\t%f\n", camera->up.y);
+	printf("\t\tZ:\t%f\n", camera->up.z);
+	printf("\tRight:\n");
+	printf("\t\tX:\t%f\n", camera->right.x);
+	printf("\t\tY:\t%f\n", camera->right.y);
+	printf("\t\tZ:\t%f\n", camera->right.z);
 }
 
 static void	print_debug_ambient(t_ambient *ambient)
@@ -45,9 +53,9 @@ static void	print_debug_ambient(t_ambient *ambient)
 	printf("Ambient:\n");
 	printf("\tStrength:\t%f\n", ambient->strength);
 	printf("\tColor:\n");
-	printf("\t\tRed:\t%u\n", ambient->color.red);
-	printf("\t\tGreen:\t%u\n", ambient->color.green);
-	printf("\t\tBlue:\t%u\n", ambient->color.blue);
+	printf("\t\tRed:\t%f\n", ambient->color.r * 255);
+	printf("\t\tGreen:\t%f\n", ambient->color.g * 255);
+	printf("\t\tBlue:\t%f\n", ambient->color.b * 255);
 }
 
 static void	print_debug_sphere(t_sphere *sphere)
@@ -59,9 +67,9 @@ static void	print_debug_sphere(t_sphere *sphere)
 	printf("\t\tY:\t%f\n", sphere->position.y);
 	printf("\t\tZ:\t%f\n", sphere->position.z);
 	printf("\tColor:\n");
-	printf("\t\tRed:\t%u\n", sphere->color.red);
-	printf("\t\tGreen:\t%u\n", sphere->color.green);
-	printf("\t\tBlue:\t%u\n", sphere->color.blue);
+	printf("\t\tRed:\t%f\n", sphere->color.r * 255);
+	printf("\t\tGreen:\t%f\n", sphere->color.g * 255);
+	printf("\t\tBlue:\t%f\n", sphere->color.b * 255);
 }
 
 static void	print_debug_plane(t_plane *plane)
@@ -76,9 +84,9 @@ static void	print_debug_plane(t_plane *plane)
 	printf("\t\tY:\t%f\n", plane->normal.y);
 	printf("\t\tZ:\t%f\n", plane->normal.z);
 	printf("\tColor:\n");
-	printf("\t\tRed:\t%u\n", plane->color.red);
-	printf("\t\tGreen:\t%u\n", plane->color.green);
-	printf("\t\tBlue:\t%u\n", plane->color.blue);
+	printf("\t\tRed:\t%f\n", plane->color.r * 255);
+	printf("\t\tGreen:\t%f\n", plane->color.g * 255);
+	printf("\t\tBlue:\t%f\n", plane->color.b * 255);
 }
 
 static void	print_debug_cylinder(t_cylinder *cylinder)
@@ -95,9 +103,9 @@ static void	print_debug_cylinder(t_cylinder *cylinder)
 	printf("\t\tY:\t%f\n", cylinder->orientation.y);
 	printf("\t\tZ:\t%f\n", cylinder->orientation.z);
 	printf("\tColor:\n");
-	printf("\t\tRed:\t%u\n", cylinder->color.red);
-	printf("\t\tGreen:\t%u\n", cylinder->color.green);
-	printf("\t\tBlue:\t%u\n", cylinder->color.blue);
+	printf("\t\tRed:\t%f\n", cylinder->color.r * 255);;
+	printf("\t\tGreen:\t%f\n", cylinder->color.g * 255);;
+	printf("\t\tBlue:\t%f\n", cylinder->color.b * 255);;
 }
 
 void	print_debug(void *comp, t_component_type type)

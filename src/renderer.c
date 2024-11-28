@@ -3,42 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 00:52:05 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/26 22:24:33 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/11/29 00:43:18 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	render(t_rt *rt)
+void	calc_ray_dir(t_rt *rt)
 {
-	static float time = 0;
+	float	u;
+	float	v;
 	int	i;
 	int	j;
 
-	float	x;
-	float	y;
-	float	mul;
 	i = 0;
-	time += 0.1;
-	mul = (sin(time) + 1) / 2;
-	ft_fill_img(&rt->mlx.win, &rt->mlx.img, (t_color){.value = 0xffffffff});
+	rt->renderer.image_height = 2 * tan(rt->scene.camera.fov / 2);
+	rt->renderer.image_width = rt->renderer.image_height * ASPECT_RATIO;
+	while (i < HEIGHT)
+	{
+		j = 0;
+		while (j < WIDTH)
+		{
+			u = (2 * ft_normalize(i + 0.5, 0, WIDTH) - 1)
+				* rt->renderer.image_width / 2;
+			v = (2 * ft_normalize(j + 0.5, 0, HEIGHT) - 1)
+				* rt->renderer.image_height / 2;
+			rt->renderer.ray_dir[j + WIDTH * i]
+				= ft_vec3_add(rt->scene.camera.orientation,
+					ft_vec3_add(ft_vec3_mul(rt->scene.camera.right, u),
+						ft_vec3_mul(rt->scene.camera.up, v)));
+			j++;
+		}
+		i++;
+	}
+}
+
+t_bool	check_intersections(t_rt *rt, int i, int j)
+{
+	(void)rt;
+	(void)i;
+	(void)j;
+	return (false);
+}
+
+void	cast_ray(t_rt *rt)
+{
+	int	i;
+	int	j;
+
+	i = 0;
 	while (i < WIDTH)
 	{
 		j = 0;
 		while (j < HEIGHT)
 		{
-			x = ft_normalize(i, 0, WIDTH);
-			y = ft_normalize(j, 0, HEIGHT);
-			//x = 2 * x - 1;
-			//y = 2 * y - 1;
-			ft_put_pixel(&rt->mlx.img, i, j, colorf_to_color((t_colorf){.r = x, .g = y, .a = mul}));
+			if (check_intersections(rt, i, j))
+				ft_put_pixel(&rt->mlx.img, i, j,
+					(t_color){.a = 0, .r = 1, .g = 0, .b = 0});
+			else
+				ft_put_pixel(&rt->mlx.img, i, j,
+					(t_color){.a = 0, .r = 0, .g = 0, .b = 0});
 			j++;
 		}
 		i++;
 	}
-	mlx_put_image_to_window(rt->mlx.mlx, rt->mlx.win.win,
-		rt->mlx.img.img, 0, 0);
+}
+
+void	render(t_rt *rt)
+{
+	calc_ray_dir(rt);
+	cast_ray(rt);
 }

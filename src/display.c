@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:04:50 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/26 19:38:16 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/11/29 00:29:11 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_display(t_rt *rt)
 	if (!rt->mlx.img.img)
 		return (mlx_destroy_window(rt->mlx.mlx, rt->mlx.win.win),
 			EXIT_FAILURE);
-	rt->mlx.img.data = (t_color *)mlx_get_data_addr(rt->mlx.img.img,
+	rt->mlx.img.data = (t_color32 *)mlx_get_data_addr(rt->mlx.img.img,
 			&rt->mlx.img.bits_per_pixel, &rt->mlx.img.size_line,
 			&rt->mlx.img.endian);
 	rt->mlx.img.size_line /= rt->mlx.img.bits_per_pixel / 8;
@@ -44,6 +44,8 @@ int	init_display(t_rt *rt)
 		return (mlx_destroy_image(rt->mlx.mlx, rt->mlx.img.img),
 			mlx_destroy_window(rt->mlx.mlx, rt->mlx.win.win),
 			EXIT_FAILURE);
+	rt->renderer.ray_dir = ft_calloc(WIDTH * HEIGHT, sizeof(t_vec3));
+	rt->renderer.hitinfo = ft_calloc(WIDTH * HEIGHT, sizeof(t_hitinfo));
 	init_events(rt);
 	return (EXIT_SUCCESS);
 }

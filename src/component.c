@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:53:31 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/25 00:12:15 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:05:37 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	parse_sphere(t_rt *rt, char *line)
 			, EXIT_FAILURE);
 	sphere->radius = ft_atof(split[2]);
 	if (parse_color(&sphere->color, split[3]))
-		return (free_dpointer(split), printf("Incorrect RGB! (uint[0, 255])\n")
+		return (free_dpointer(split), printf("Incorrect RGB! [0, 255]\n")
 			, EXIT_FAILURE);
 	print_debug(sphere, COMP_SPHERE);
 	return (EXIT_SUCCESS);
@@ -53,7 +53,7 @@ int	parse_plane(t_rt *rt, char *line)
 		return (free_dpointer(split), printf("Incorrect normal!\n")
 			, EXIT_FAILURE);
 	if (parse_color(&plane->color, split[3]))
-		return (free_dpointer(split), printf("Incorrect RGB! (uint[0, 255])\n")
+		return (free_dpointer(split), printf("Incorrect RGB! [0, 255]\n")
 			, EXIT_FAILURE);
 	print_debug(plane, COMP_PLANE);
 	return (EXIT_SUCCESS);
@@ -80,7 +80,7 @@ int	parse_cylinder(t_rt *rt, char *line)
 		return (free_dpointer(split), printf("Incorrect height!\n"), 1);
 	cy->height = ft_atof(split[4]);
 	if (parse_color(&cy->color, split[5]))
-		return (free_dpointer(split), printf("Incorrect RGB! (uint[0, 255])\n")
+		return (free_dpointer(split), printf("Incorrect RGB! [0, 255]\n")
 			, EXIT_FAILURE);
 	print_debug(cy, COMP_CYLINDER);
 	return (EXIT_SUCCESS);

@@ -12,16 +12,13 @@
 # include <string.h>
 # include "darray.h"
 
-# define WIDTH 2000
-# define HEIGHT 2000
-
-typedef struct s_colorf
-{
-	float	a;
-	float	r;
-	float	g;
-	float	b;
-}	t_colorf;
+# ifndef WIDTH
+#  define WIDTH 2000
+# endif
+# ifndef HEIGHT
+#  define HEIGHT 2000
+# endif
+# define ASPECT_RATIO (float)WIDTH / (float)HEIGHT
 
 typedef enum e_component_type
 {
@@ -38,9 +35,10 @@ typedef struct s_camera
 {
 	t_vec3	position; // x, y, z
 	t_vec3	orientation; // x, y, z normalized
+	t_vec3	up;
+	t_vec3	right;
 	float	fov; // [0, 180]
 }	t_camera;
-
 
 typedef struct s_ambient
 {
@@ -103,13 +101,30 @@ typedef struct s_check
 	t_bool		light;
 }	t_check;
 
+typedef struct s_hitinfo
+{
+	t_vec3		normal;
+	t_vec3		hitpoint;
+	t_color		color;
+	float		distance;
+}	t_hitinfo;
+
+typedef struct s_renderer
+{
+	float		image_width;
+	float		image_height;
+	t_vec3		*ray_dir;
+	t_hitinfo	*hitinfo;
+}	t_renderer;
+
 typedef struct s_rt
 {
-	t_mlx	mlx;
-	t_check	check;
-	t_scene	scene;
-	t_timer	timer;
-	t_bool	key_states[MAX_KEY_COUNT];
+	t_mlx		mlx;
+	t_check		check;
+	t_scene		scene;
+	t_timer		timer;
+	t_bool		key_states[MAX_KEY_COUNT];
+	t_renderer	renderer;
 }	t_rt;
 
 //utils
@@ -119,8 +134,6 @@ float		ft_atof(char *str);
 int			cntrl_nbr(char *str);
 int			parse_color(t_color *color, char *line);
 int			parse_vec3(t_vec3 *vec3, char *line);
-t_colorf	color_to_colorf(t_color color);
-t_color		colorf_to_color(t_colorf color);
 
 //scene
 int			read_scene(t_rt *rt);

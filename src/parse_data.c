@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 22:22:09 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/24 22:31:13 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:50:07 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ int	parse_color(t_color *color, char *line)
 		return (free_dpointer(split), EXIT_FAILURE);
 	if (cntrl_nbr(split[0]) || cntrl_nbr(split[1]) || cntrl_nbr(split[2]))
 		return (free_dpointer(split), EXIT_FAILURE);
-	color->alpha = 0;
-	color->red = ft_atoi(split[0]);
-	color->green = ft_atoi(split[1]);
-	color->blue = ft_atoi(split[2]);
+	color->a = 1.;
+	color->r = ft_atoi(split[0]) / 255.;
+	color->g = ft_atoi(split[1]) / 255.;
+	color->b = ft_atoi(split[2]) / 255.;
+	if (color->r < 0 || color->r > 1 || color->g < 0 || color->g > 1
+		|| color->b < 0 || color->b > 1)
+		return (free_dpointer(split), EXIT_FAILURE);
 	free_dpointer(split);
 	return (EXIT_SUCCESS);
 }

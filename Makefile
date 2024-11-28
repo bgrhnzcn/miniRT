@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+         #
+#    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/26 20:41:10 by buozcan          ###   ########.fr        #
+#    Updated: 2024/11/28 16:34:57 by bgrhnzcn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,12 @@ MAKEFLAGS += --no-print-directory
 # Include Directories
 INCLUDES = -I$(MLX_DIR) -I$(GNL_DIR) -I$(LIBFT_DIR) -I$(INC)
 
+ifeq ($(shell whoami), bgrhnzcn)
+DEFINES = -D WIDTH=800 -D HEIGHT=800
+else ifeq ($(shell whoami), buozcan)
+DEFINES = -D WIDTH=1920 -D HEIGHT=1920
+endif
+
 # Operating System
 OS = $(shell uname 2>/dev/null || echo Unknown)
 
@@ -106,7 +112,6 @@ SRCS = $(SRC)/main.c \
 	   $(SRC)/component.c \
 	   $(SRC)/u_component.c \
 	   $(SRC)/darray.c \
-	   $(SRC)/color.c \
 
 # Object Directory Creation
 $(OBJ):
@@ -120,7 +125,7 @@ OBJS = $(SRCS:$(SRC)/%.c=$(OBJ)/%.o)
 
 # Object Files Compilation
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
-	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< &&\
+	@$(CC) $(CFLAGS) $(INCLUDES) $(DEFINES) -o $@ -c $< &&\
 	(echo $< | awk -F "/" '{printf "$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\n$(RESET)", "Compiling" , $$2, "[OK]"; fflush()}') ||\
 	(echo $< | awk -F "/" '{printf "$(BOLD_WHITE)%-9s $(BOLD_BLUE)%-30s $(BOLD_RED)%-4s\n$(RESET)", "FAILED" , $$2, "[KO]"; fflush()}'; exit 1)
 
@@ -140,7 +145,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_COMP = awk '{ \
 		if ($$1 == "FAIL") { exit 1} \
 		else if ($$1 == "gcc"){ printf "\t$(BOLD_WHITE)%9s $(BOLD_CYAN)%-30s $(BOLD_GREEN)%-4s\r$(RESET)", "Compiling" , $$9, "[OK]" } \
-		fflush() }' <(make USE_MATH=TRUE 2>/dev/null || echo "FAIL");\
+		fflush() }' <(USE_MATH=TRUE make  2>/dev/null || echo "FAIL");\
 	if [ $$? -eq 1 ]; then \
 		awk 'BEGIN{ printf "\t$(BOLD_RED)%9s $(BOLD_CYAN)%-14s $(BOLD_RED)%-4s\n$(RESET)", "Libft Compilation Failed!" , NULL, "[KO]" }'; \
 		exit 1;\
