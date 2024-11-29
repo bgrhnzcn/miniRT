@@ -103,10 +103,11 @@ typedef struct s_check
 
 typedef struct s_hitinfo
 {
-	t_vec3		normal;
-	t_vec3		hitpoint;
-	t_color		color;
-	float		distance;
+	t_vec3	normal;
+	t_vec3	hitpoint;
+	t_color	color;
+	float	distance;
+	t_bool	result;
 }	t_hitinfo;
 
 typedef struct s_renderer

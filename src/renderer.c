@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 00:52:05 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/29 00:43:18 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:22:08 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	calc_ray_dir(t_rt *rt)
 	int	j;
 
 	i = 0;
-	rt->renderer.image_height = 2 * tan(rt->scene.camera.fov / 2);
+	rt->renderer.image_height = 2 * tan(rt->scene.camera.fov / 2); 
 	rt->renderer.image_width = rt->renderer.image_height * ASPECT_RATIO;
 	while (i < HEIGHT)
 	{
@@ -41,8 +41,30 @@ void	calc_ray_dir(t_rt *rt)
 	}
 }
 
+t_hitinfo	sphere_intersect(t_rt *rt, t_sphere *sphere)
+{
+	t_hitinfo	info;
+	float	roots[2];
+	float	discriminant;
+
+	memset(&info, 0, sizeof(t_hitinfo));
+	//calculate discriminant and check intersection. If intersect, find intersection points.
+	//Discriminant = sqrt(b^2 - 4ac)
+	//roots = (-b +- sqrt(D)) / 2a
+	if (discriminant < 0)
+		return (info);
+}
+
 t_bool	check_intersections(t_rt *rt, int i, int j)
 {
+	int	k;
+
+	k = 0;
+	while (k < rt->scene.spheres->size)
+	{
+		sphere_intersect(rt, &rt->scene.spheres->data[i + WIDTH * j]);
+		k++;
+	}
 	(void)rt;
 	(void)i;
 	(void)j;
