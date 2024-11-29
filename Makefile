@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
+#    By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/11/28 16:34:57 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/11/29 14:44:53 by buozcan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -273,10 +273,12 @@ re: fclean all
 test: $(NAME)
 	@printf "$(BOLD_WHITE)Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...$(RESET)\n"
 	@./$(NAME) $(TEST_FILE)
+	@xset r on
 
 leak: $(NAME)
 	@printf "$(BOLD_WHITE)Leak: Running $(BOLD_GREEN)$(NAME) $(BOLD_WHITE)with $(BOLD_CYAN)$(TEST_FILE) $(BOLD_WHITE)scene...$(RESET)\n"
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(TEST_FILE)
+	@xset r on
 
 update:
 	@printf "$(BOLD_GREEN)Updating Project:\n" && git pull | awk '{printf "$(RESET)\t%s\n", $$0}'
