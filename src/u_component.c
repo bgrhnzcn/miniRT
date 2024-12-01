@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:54:36 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/28 22:32:08 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/01 01:59:31 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	parse_camera(t_rt *rt, char *line)
 	if (camera->fov < 0 || camera->fov > 180)
 		return (free_dpointer(split), printf("Incorrect FOV!\n")
 			, EXIT_FAILURE);
-	if (parse_vec3(&camera->position, split[1]))
-		return (free_dpointer(split), printf("Incorrect position!\n")
+	if (parse_vec3(&camera->pos, split[1]))
+		return (free_dpointer(split), printf("Incorrect pos!\n")
 			, EXIT_FAILURE);
 	if (parse_vec3(&camera->orientation, split[2]))
 		return (free_dpointer(split), printf("Incorrect orientation!\n")
@@ -81,8 +81,8 @@ int	parse_light(t_rt *rt, char *line)
 	if (rt->scene.light.brightness < 0 || rt->scene.light.brightness > 1)
 		return (free_dpointer(split), printf("Incorrect brightness!\n")
 			, EXIT_FAILURE);
-	if (parse_vec3(&rt->scene.light.position, split[1]))
-		return (free_dpointer(split), printf("Incorrect position!\n")
+	if (parse_vec3(&rt->scene.light.pos, split[1]))
+		return (free_dpointer(split), printf("Incorrect pos!\n")
 			, EXIT_FAILURE);
 	if (parse_color(&rt->scene.light.color, split[3]))
 		return (free_dpointer(split), printf("Incorrect orientation!\n")

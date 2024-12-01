@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 23:59:42 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/24 17:49:30 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/01 03:18:44 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,27 @@ int	key_release(int keycode, t_rt *rt)
 	keysym = get_keysym_from_keycode(keycode);
 	if (keysym != -1)
 		rt->key_states[keysym] = false;
+	return (0);
+}
+
+int	mouse_press(int button, int x, int y, t_rt *rt)
+{
+	(void)button;
+	(void)x;
+	(void)y;
+	(void)rt;
+	printf("Mouse pressed. Button %d\n", button);
+	printf("Mouse position: x: %d, y: %d\n", x, y);
+	return (0);
+}
+
+int	mouse_release(int button, int x, int y, t_rt *rt)
+{
+	(void)button;
+	(void)x;
+	(void)y;
+	(void)rt;
+	printf("Mouse released. Button %d\n", button);
+	printf("Mouse position: x: %d, y: %d\n", x, y);
 	return (0);
 }

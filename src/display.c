@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:04:50 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/11/29 00:29:11 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/01 03:18:48 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ static void	init_events(t_rt *rt)
 	mlx_hook(rt->mlx.win.win, Destroy, DestroyMask, terminate_program, rt);
 	mlx_hook(rt->mlx.win.win, KeyPress, KeyPressMask, key_press, rt);
 	mlx_hook(rt->mlx.win.win, KeyRelease, KeyReleaseMask, key_release, rt);
+	mlx_hook(rt->mlx.win.win, ButtonPress, ButtonPressMask, mouse_press, rt);
+	mlx_hook(rt->mlx.win.win, ButtonRelease, ButtonReleaseMask, mouse_release,
+		rt);
 	mlx_loop_hook(rt->mlx.mlx, update_frame, rt);
 	mlx_loop(rt->mlx.mlx);
 }
@@ -44,8 +47,8 @@ int	init_display(t_rt *rt)
 		return (mlx_destroy_image(rt->mlx.mlx, rt->mlx.img.img),
 			mlx_destroy_window(rt->mlx.mlx, rt->mlx.win.win),
 			EXIT_FAILURE);
-	rt->renderer.ray_dir = ft_calloc(WIDTH * HEIGHT, sizeof(t_vec3));
-	rt->renderer.hitinfo = ft_calloc(WIDTH * HEIGHT, sizeof(t_hitinfo));
+	rt->renderer.image_height = 2 * tan(rt->scene.camera.fov / 2);
+	rt->renderer.image_width = rt->renderer.image_height * ASPECT_RATIO;
 	init_events(rt);
 	return (EXIT_SUCCESS);
 }
