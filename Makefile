@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+         #
+#    By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/12/01 03:16:39 by bgrhnzcn         ###   ########.fr        #
+#    Updated: 2024/12/02 18:22:06 by buozcan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ INCLUDES = -I$(MLX_DIR) -I$(GNL_DIR) -I$(LIBFT_DIR) -I$(INC)
 ifeq ($(shell whoami), bgrhnzcn)
 DEFINES = -D WIDTH=800 -D HEIGHT=800
 else ifeq ($(shell whoami), buozcan)
-DEFINES = -D WIDTH=1920 -D HEIGHT=1920
+DEFINES = -D WIDTH=800 -D HEIGHT=800
 endif
 
 # Operating System

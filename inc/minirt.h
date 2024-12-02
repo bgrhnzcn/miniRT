@@ -14,10 +14,10 @@
 # include <darray.h>
 
 # ifndef WIDTH
-#  define WIDTH 2000
+#  define WIDTH 800
 # endif
 # ifndef HEIGHT
-#  define HEIGHT 2000
+#  define HEIGHT 800
 # endif
 # define ASPECT_RATIO (float)WIDTH / (float)HEIGHT
 

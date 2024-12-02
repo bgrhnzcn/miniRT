@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 00:52:05 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/01 02:16:59 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:26:00 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_hitinfo	cast_ray(t_rt *rt, t_vec3 ray_dir, int i, int j)
 			hitinfo.color);
 	else
 		ft_put_pixel(&rt->mlx.img, i, j,
-			ft_set_color(255, 10, 20, 80));
+			ft_set_color(255, 20, 40, 70));
 	return (hitinfo);
 }
 
