@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 00:50:17 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/01 03:13:23 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:18:19 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void	update_inputs(t_rt *rt)
 	if (rt->key_states[D_KEY])
 		rt->scene.camera.pos = ft_vec3_add(rt->scene.camera.pos,
 			ft_vec3_mul(rt->scene.camera.right, speed));
+	if (rt->key_states[CTRL_KEY])
+		rt->scene.camera.pos = ft_vec3_add(rt->scene.camera.pos,
+			ft_vec3_mul(rt->scene.camera.up, speed));
+	if (rt->key_states[SPACE_KEY])
+		rt->scene.camera.pos = ft_vec3_sub(rt->scene.camera.pos,
+			ft_vec3_mul(rt->scene.camera.up, speed));
 }
 
 //Updates inputs

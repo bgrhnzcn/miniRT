@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:52:43 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/01 00:14:21 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:22:32 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,13 @@ int	init_scene(t_rt *rt, char *path)
 	rt->scene.scene_path = ft_strdup(path);
 	if (read_scene(rt))
 		return (printf("Failed to read scene file.\n"), EXIT_FAILURE);
-	rt->scene.spheres = init_darray(1, sizeof(t_sphere));
-	rt->scene.planes = init_darray(1, sizeof(t_plane));
-	rt->scene.cylinders = init_darray(1, sizeof(t_cylinder));
-	if (!rt->scene.spheres || !rt->scene.planes || !rt->scene.cylinders)
+	rt->scene.shapes = init_darray(1, sizeof(t_shape));
+	if (!rt->scene.shapes)
 		return (printf("Failed to initialize scene components.\n"),
 			EXIT_FAILURE);
 	if (parse_scene(rt))
 		return (free_darray(rt->scene.scene_file),
-			free_darray(rt->scene.planes), free_darray(rt->scene.spheres),
-			free_darray(rt->scene.cylinders),
+			free_darray(rt->scene.shapes),
 			printf("Failed to parse scene file.\n"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

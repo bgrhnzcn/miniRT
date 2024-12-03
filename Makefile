@@ -6,7 +6,7 @@
 #    By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 10:33:01 by bgrhnzcn          #+#    #+#              #
-#    Updated: 2024/12/02 18:22:06 by buozcan          ###   ########.fr        #
+#    Updated: 2024/12/03 20:06:07 by buozcan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ NAME = miniRT
 CC = gcc
 
 # Compiler Flags
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror -O3
 
 # Make Flags
 MAKEFLAGS += --no-print-directory
@@ -112,6 +112,7 @@ SRCS = $(SRC)/main.c \
 	   $(SRC)/component.c \
 	   $(SRC)/u_component.c \
 	   $(SRC)/darray.c \
+	   $(SRC)/shape.c \
 #	   $(SRC)/gui.c \
 
 # Object Directory Creation

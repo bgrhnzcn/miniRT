@@ -61,28 +61,37 @@ typedef struct s_light
 	t_color color; // A:[0, 0] R:[0, 255] G:[0, 255] B:[0, 255]
 }	t_light;
 
-typedef struct sphere
+typedef enum e_shape_type
 {
-	t_vec3	pos; // x, y, z
-	float	radius; // > 0
-	t_color	color; // A:[0, 0] R:[0, 255] G:[0, 255] B:[0, 255]
-}	t_sphere;
+	Sphere,
+	Plane,
+	Cylinder
+}	t_shape_type;
 
-typedef struct s_plane
+typedef struct s_shape
 {
-	t_vec3	pos; // x, y, z
-	t_vec3	normal; // x, y, z normalized
-	t_color	color; // A:[0, 0] R:[0, 255] G:[0, 255] B:[0, 255]
-}	t_plane;
-
-typedef struct s_cylinder
-{
-	t_vec3	pos; // x, y, z
-	t_vec3	orientation; // x, y, z normalized
-	float	diameter; // > 0
-	float	height; // > 0
-	t_color	color; // A:[0, 0] R:[0, 255] G:[0, 255] B:[0, 255]
-}	t_cylinder;
+	union
+	{
+		struct
+		{
+			float	radius;
+		};
+		struct
+		{
+			t_vec3	normal;
+		};
+		struct
+		{
+			t_vec3	orientation;
+			float	diameter;
+			float	height;
+		};
+	};
+	t_shape_type	type;
+	t_vec3			pos;
+	t_color			color;
+	void	(*intersect)();
+}	t_shape;
 
 typedef struct s_scene
 {
@@ -91,9 +100,7 @@ typedef struct s_scene
 	t_light		light;
 	char		*scene_path;
 	t_darray	*scene_file;
-	t_darray	*spheres;
-	t_darray	*planes;
-	t_darray	*cylinders;
+	t_darray	*shapes;
 }	t_scene;
 
 typedef struct s_timer
@@ -173,7 +180,18 @@ int		mouse_release(int button, int x, int y, t_rt *rt);
 //update
 int		update_frame(t_rt *rt);
 
+//shape
+t_shape	*init_sphere();
+t_shape	*init_plane();
+t_shape	*init_cylinder();
+
 //render
+void	sphere_intersect(t_rt *rt, t_shape *sphere, t_vec3 ray_dir,
+	t_hitinfo *info);
+void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
+	t_hitinfo *info);
+void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
+	t_hitinfo *info);
 void	render(t_rt *rt);
 
 //debug

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:53:31 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/01 01:59:31 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:07:57 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	parse_sphere(t_rt *rt, char *line)
 {
 	char		**split;
-	t_sphere	*sphere;
+	t_shape		*sphere;
 
-	sphere = malloc(sizeof(t_sphere));
+	sphere = init_sphere();
 	split = ft_split(line, ' ');
 	if (count_dpointer(split) != 4)
 		return (free_dpointer(split), EXIT_FAILURE);
@@ -31,7 +31,7 @@ int	parse_sphere(t_rt *rt, char *line)
 	if (parse_color(&sphere->color, split[3]))
 		return (free_dpointer(split), printf("Incorrect RGB! [0, 255]\n")
 			, EXIT_FAILURE);
-	push_darray(rt->scene.spheres, sphere);
+	push_darray(rt->scene.shapes, sphere);
 	print_debug(sphere, COMP_SPHERE);
 	return (EXIT_SUCCESS);
 }
@@ -39,9 +39,9 @@ int	parse_sphere(t_rt *rt, char *line)
 int	parse_plane(t_rt *rt, char *line)
 {
 	char	**split;
-	t_plane	*plane;
+	t_shape	*plane;
 
-	plane = malloc(sizeof(t_plane));
+	plane = init_plane();
 	split = ft_split(line, ' ');
 	if (count_dpointer(split) != 4)
 		return (free_dpointer(split), EXIT_FAILURE);
@@ -54,7 +54,7 @@ int	parse_plane(t_rt *rt, char *line)
 	if (parse_color(&plane->color, split[3]))
 		return (free_dpointer(split), printf("Incorrect RGB! [0, 255]\n")
 			, EXIT_FAILURE);
-	push_darray(rt->scene.planes, plane);
+	push_darray(rt->scene.shapes, plane);
 	print_debug(plane, COMP_PLANE);
 	return (EXIT_SUCCESS);
 }
@@ -62,9 +62,9 @@ int	parse_plane(t_rt *rt, char *line)
 int	parse_cylinder(t_rt *rt, char *line)
 {
 	char		**split;
-	t_cylinder	*cy;
+	t_shape		*cy;
 
-	cy = malloc(sizeof(t_cylinder));
+	cy = init_cylinder();
 	split = ft_split(line, ' ');
 	if (count_dpointer(split) != 6)
 		return (free_dpointer(split), EXIT_FAILURE);
@@ -81,7 +81,7 @@ int	parse_cylinder(t_rt *rt, char *line)
 	if (parse_color(&cy->color, split[5]))
 		return (free_dpointer(split), printf("Incorrect RGB! [0, 255]\n")
 			, EXIT_FAILURE);
-	push_darray(rt->scene.cylinders, cy);
+	push_darray(rt->scene.shapes, cy);
 	print_debug(cy, COMP_CYLINDER);
 	return (EXIT_SUCCESS);
 }

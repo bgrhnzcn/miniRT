@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   u_component.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:54:36 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/01 01:59:31 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:23:24 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	parse_camera(t_rt *rt, char *line)
 	if (!ft_vec3_equ(camera->orientation, ft_vec3_norm(camera->orientation)))
 		return (free_dpointer(split), printf("Orientation must be normal!\n")
 			, EXIT_FAILURE);
-	camera->right = ft_vec3_norm(ft_vec3_cross(camera->orientation, g_vec3_j));
+	camera->right = ft_vec3_norm(ft_vec3_cross(g_vec3_j, camera->orientation));
 	camera->up = ft_vec3_cross(camera->right, camera->orientation);
 	print_debug(&rt->scene.camera, COMP_CAMERA);
 	return (EXIT_SUCCESS);

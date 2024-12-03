@@ -6,7 +6,7 @@
 /*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 00:52:05 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/02 18:26:00 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/12/03 20:24:18 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ float	select_root(float *roots)
 		return (roots[0]);
 	else if (roots[1] > 0)
 		return (roots[1]);
-	return (0);
+	return (-1);
 }
 
-void	sphere_intersect(t_rt *rt, t_sphere *sphere, t_vec3 ray_dir,
+void	sphere_intersect(t_rt *rt, t_shape *sphere, t_vec3 ray_dir,
 	t_hitinfo *info)
 {
 	float	roots[2];
@@ -62,24 +62,33 @@ void	sphere_intersect(t_rt *rt, t_sphere *sphere, t_vec3 ray_dir,
 	roots[0] = (-coeff[B] + sqrt(disc)) / (2 * coeff[A]);
 	roots[1] = (-coeff[B] - sqrt(disc)) / (2 * coeff[A]);
 	info->dist = select_root(roots);
-	if (info->dist == 0)
+	if (info->dist < 0)
 		return ;
 	info->point = ft_vec3_add(rt->scene.camera.pos,
 					ft_vec3_mul(ray_dir, info->dist));
 	info->normal = ft_vec3_norm(ft_vec3_sub(info->point, sphere->pos));
 	info->color = sphere->color;
 }
-
-void	plane_intersect(t_rt *rt, t_plane *plane, t_vec3 ray_dir,
+//(nx*dirx + ny*diry + nz*dirz) * t + nx*ax + ny*ay + nz*az = 0
+void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
 	t_hitinfo *info)
 {
-	(void)rt;
-	(void)plane;
-	(void)ray_dir;
-	(void)info;
+	float	coeff[2];
+	float	root;
+
+	coeff[A] = ft_vec3_dot(plane->normal, ray_dir);
+	coeff[B] = ft_vec3_dot(plane->normal, ft_vec3_sub(rt->scene.camera.pos,
+		plane->pos));
+	root = -coeff[B] / coeff[A];
+	if (root < 0)
+		return ;
+	info->dist = root;
+	info->point = ft_vec3_add(rt->scene.camera.pos, ft_vec3_mul(ray_dir, root));
+	info->normal = plane->normal;
+	info->color = plane->color;
 }
 
-void	cylinder_intersect(t_rt *rt, t_cylinder *cylinder, t_vec3 ray_dir,
+void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
 	t_hitinfo *info)
 {
 	(void)rt;
@@ -97,35 +106,16 @@ t_hitinfo	check_intersections(t_rt *rt, t_vec3 ray_dir)
 	k = 0;
 	ft_memset(&info, 0, sizeof(t_hitinfo));
 	ft_memset(&temp, 0, sizeof(t_hitinfo));
-	while (k < rt->scene.spheres->size)
+	while (k < rt->scene.shapes->size)
 	{
-		sphere_intersect(rt, &((t_sphere *)rt->scene.spheres->data)[k],
-			ray_dir, &info);
+		((t_shape *)rt->scene.shapes->data)[k].intersect(rt,
+			&((t_shape *)rt->scene.shapes->data)[k], ray_dir, &info);
 		if (temp.dist > 0 && temp.dist < info.dist)
 			info = temp;
 		temp = info;
 		k++;
 	}
 	k = 0;
-	while (k < rt->scene.planes->size)
-	{
-		plane_intersect(rt, &((t_plane *)rt->scene.planes->data)[k],
-			ray_dir, &info);
-		if (temp.dist > 0 && temp.dist < info.dist)
-			info = temp;
-		temp = info;
-		k++;
-	}
-	k = 0;
-	while (k < rt->scene.planes->size)
-	{
-		cylinder_intersect(rt, &((t_cylinder *)rt->scene.cylinders->data)[k],
-			ray_dir, &info);
-		if (temp.dist > 0 && temp.dist < info.dist)
-			info = temp;
-		temp = info;
-		k++;
-	}
 	return (info);
 }
 

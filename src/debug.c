@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 23:36:19 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/01 01:59:31 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:07:31 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	print_debug_ambient(t_ambient *ambient)
 	printf("\t\tBlue:\t%f\n", ambient->color.b * 255);
 }
 
-static void	print_debug_sphere(t_sphere *sphere)
+static void	print_debug_sphere(t_shape *sphere)
 {
 	printf("Sphere:\n");
 	printf("\tRadius:\t\t%f\n", sphere->radius);
@@ -72,7 +72,7 @@ static void	print_debug_sphere(t_sphere *sphere)
 	printf("\t\tBlue:\t%f\n", sphere->color.b * 255);
 }
 
-static void	print_debug_plane(t_plane *plane)
+static void	print_debug_plane(t_shape *plane)
 {
 	printf("Plane:\n");
 	printf("\tpos:\n");
@@ -89,7 +89,7 @@ static void	print_debug_plane(t_plane *plane)
 	printf("\t\tBlue:\t%f\n", plane->color.b * 255);
 }
 
-static void	print_debug_cylinder(t_cylinder *cylinder)
+static void	print_debug_cylinder(t_shape *cylinder)
 {
 	printf("Cylinder:\n");
 	printf("\tDiameter:\t%f\n", cylinder->diameter);
@@ -111,17 +111,17 @@ static void	print_debug_cylinder(t_cylinder *cylinder)
 void	print_debug(void *comp, t_component_type type)
 {
 	if (type == COMP_LIGHT)
-		print_debug_light((t_light *)comp);
+		print_debug_light(comp);
 	else if (type == COMP_CAMERA)
-		print_debug_camera((t_camera *)comp);
+		print_debug_camera(comp);
 	else if (type == COMP_AMBIENT)
-		print_debug_ambient((t_ambient *)comp);
+		print_debug_ambient(comp);
 	else if (type == COMP_SPHERE)
-		print_debug_sphere((t_sphere *)comp);
+		print_debug_sphere(comp);
 	else if (type == COMP_PLANE)
-		print_debug_plane((t_plane *)comp);
+		print_debug_plane(comp);
 	else if (type == COMP_CYLINDER)
-		print_debug_cylinder((t_cylinder *)comp);
+		print_debug_cylinder(comp);
 }
 
 static double	get_frame_time(t_timer *timer)
