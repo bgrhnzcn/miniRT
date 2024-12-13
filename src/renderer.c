@@ -6,7 +6,7 @@
 /*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 00:52:05 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/13 19:05:23 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/12/13 19:33:25 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
 	info->normal = plane->normal;
 	info->color = plane->color;
 	info->is_hit = true;
+	info->is_plane = true;
 }
 
 void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
