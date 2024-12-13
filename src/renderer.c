@@ -6,7 +6,7 @@
 /*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 00:52:05 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/03 20:24:18 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/12/13 19:05:23 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	sphere_intersect(t_rt *rt, t_shape *sphere, t_vec3 ray_dir,
 					ft_vec3_mul(ray_dir, info->dist));
 	info->normal = ft_vec3_norm(ft_vec3_sub(info->point, sphere->pos));
 	info->color = sphere->color;
+	info->is_hit = true;
 }
 //(nx*dirx + ny*diry + nz*dirz) * t + nx*ax + ny*ay + nz*az = 0
 void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
@@ -86,23 +87,43 @@ void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
 	info->point = ft_vec3_add(rt->scene.camera.pos, ft_vec3_mul(ray_dir, root));
 	info->normal = plane->normal;
 	info->color = plane->color;
+	info->is_hit = true;
 }
 
 void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
 	t_hitinfo *info)
 {
-	(void)rt;
-	(void)cylinder;
-	(void)ray_dir;
-	(void)info;
+	float	coeff[3];
+	float	disc;
+	float	roots[2];
+	t_vec3	pos;
+
+	pos = ft_vec3_sub(rt->scene.camera.pos, cylinder->pos);
+	coeff[A] = (ray_dir.x * ray_dir.x) + (ray_dir.y * ray_dir.y);
+	coeff[B] = (2 * pos.x * ray_dir.x) + (2 * pos.y * ray_dir.y);
+	coeff[C] = (pos.x * pos.x) + (pos.y * pos.y) - (cylinder->diameter * cylinder->diameter);
+	disc = coeff[B] * coeff[B] - (4 * coeff[A] * coeff[C]);
+	if (disc < 0)
+		return ;
+	roots[0] = (-coeff[B] + sqrt(disc)) / (2 * coeff[A]);
+	roots[1] = (-coeff[B] - sqrt(disc)) / (2 * coeff[A]);
+	info->dist = select_root(roots);
+	if (info->dist < 0)
+		return ;
+	info->point = ft_vec3_add(rt->scene.camera.pos,
+					ft_vec3_mul(ray_dir, info->dist));
+	info->normal = g_vec3_i;
+	info->color = cylinder->color;
+	info->is_hit = true;
 }
 
-t_hitinfo	check_intersections(t_rt *rt, t_vec3 ray_dir)
+t_hitinfo	check_intersections(t_rt *rt, t_vec3 pos, t_vec3 ray_dir)
 {
 	t_hitinfo	info;
 	t_hitinfo	temp;
 	int			k;
 
+	(void)pos;
 	k = 0;
 	ft_memset(&info, 0, sizeof(t_hitinfo));
 	ft_memset(&temp, 0, sizeof(t_hitinfo));
@@ -119,14 +140,53 @@ t_hitinfo	check_intersections(t_rt *rt, t_vec3 ray_dir)
 	return (info);
 }
 
+void	calc_light(t_rt *rt, t_hitinfo *hitinfo)
+{
+	t_vec3	dir;
+	float	angle;
+
+	dir = ft_vec3_norm(ft_vec3_sub(rt->scene.light.pos, hitinfo->point));
+	//printf("dir: %f, %f; point: %f, %f\n", dir.x, dir.y, hitinfo->point.x, hitinfo->point.y);
+	if (!check_intersections(rt, hitinfo->point, dir).is_hit)
+	{
+		angle = ft_vec3_dot(dir, hitinfo->normal);
+		if (angle < rt->scene.ambient.strength && hitinfo->is_plane)
+		{
+			hitinfo->normal = ft_vec3_mul(hitinfo->normal, -1);
+			angle = ft_vec3_dot(dir, hitinfo->normal);
+		}
+		if (angle > rt->scene.ambient.strength)
+		{
+			hitinfo->color.r *= angle;
+			hitinfo->color.g *= angle;
+			hitinfo->color.b *= angle;
+		}
+		else
+		{
+			hitinfo->color.r *= rt->scene.ambient.strength;
+			hitinfo->color.g *= rt->scene.ambient.strength;
+			hitinfo->color.b *= rt->scene.ambient.strength;
+		}
+	}
+	else
+	{
+		hitinfo->color.r *= rt->scene.ambient.strength;
+		hitinfo->color.g *= rt->scene.ambient.strength;
+		hitinfo->color.b *= rt->scene.ambient.strength;
+	}
+}
+
 t_hitinfo	cast_ray(t_rt *rt, t_vec3 ray_dir, int i, int j)
 {
 	t_hitinfo	hitinfo;
 
-	hitinfo = check_intersections(rt, ray_dir);
-	if (ft_vec3_dot(hitinfo.normal, hitinfo.normal))
+	hitinfo = check_intersections(rt, rt->scene.camera.pos, ray_dir);
+	if (hitinfo.is_hit)
+	{
+		calc_light(rt, &hitinfo);
 		ft_put_pixel(&rt->mlx.img, i, j,
 			hitinfo.color);
+	}
 	else
 		ft_put_pixel(&rt->mlx.img, i, j,
 			ft_set_color(255, 20, 40, 70));
@@ -152,3 +212,4 @@ void	render(t_rt *rt)
 	}
 	mlx_put_image_to_window(rt->mlx.mlx, rt->mlx.win.win, rt->mlx.img.img, 0, 0);
 }
+

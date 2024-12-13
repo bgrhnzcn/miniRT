@@ -6,11 +6,34 @@
 /*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:52:43 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/03 19:22:32 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/12/13 18:56:21 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_mtx4	mtx4_rot(double x, double y, double z)
+{
+	t_mtx4	rot;
+
+	x = ft_deg_to_rad(x);
+	y = ft_deg_to_rad(y);
+	z = ft_deg_to_rad(z);
+	rot.col1 = ft_vec4_set(
+			cos(y) * cos(z),
+			cos(y) * sin(z),
+			-sin(y), 0);
+	rot.col2 = ft_vec4_set(
+			(sin(x) * sin(y) * cos(z)) - (cos(x) * sin(z)),
+			(sin(x) * sin(y) * sin(z)) + (cos(x) * cos(z)),
+			(sin(x) * cos(y)), 0);
+	rot.col3 = ft_vec4_set(
+			(cos(x) * sin(y) * cos(z)) + (sin(x) * sin(z)),
+			(cos(x) * sin(y) * sin(z)) - (sin(x) * cos(z)),
+			cos(x) * cos(y), 0);
+	rot.col4 = ft_vec4_set(0, 0, 0, 1);
+	return (rot);
+}
 
 int	init_scene(t_rt *rt, char *path)
 {

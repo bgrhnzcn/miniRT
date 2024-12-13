@@ -68,31 +68,6 @@ typedef enum e_shape_type
 	Cylinder
 }	t_shape_type;
 
-typedef struct s_shape
-{
-	union
-	{
-		struct
-		{
-			float	radius;
-		};
-		struct
-		{
-			t_vec3	normal;
-		};
-		struct
-		{
-			t_vec3	orientation;
-			float	diameter;
-			float	height;
-		};
-	};
-	t_shape_type	type;
-	t_vec3			pos;
-	t_color			color;
-	void	(*intersect)();
-}	t_shape;
-
 typedef struct s_scene
 {
 	t_ambient	ambient;
@@ -122,6 +97,8 @@ typedef struct s_hitinfo
 	t_vec3	point;
 	t_color	color;
 	float	dist;
+	t_bool	is_hit;
+	t_bool	is_plane;
 }	t_hitinfo;
 
 typedef struct s_renderer
@@ -142,6 +119,32 @@ typedef struct s_rt
 	t_renderer	renderer;
 	t_gui		*gui;
 }	t_rt;
+
+typedef struct s_shape
+{
+	union
+	{
+		struct
+		{
+			float	radius;
+		};
+		struct
+		{
+			t_vec3	normal;
+		};
+		struct
+		{
+			t_vec3	orientation;
+			float	diameter;
+			float	height;
+		};
+	};
+	t_shape_type	type;
+	t_vec3			pos;
+	t_color			color;
+	void	(*intersect)(t_rt *rt, struct s_shape *shape, t_vec3 ray_dir,
+		t_hitinfo *info);
+}	t_shape;
 
 //utils
 int		count_dpointer(char **str);
@@ -193,6 +196,9 @@ void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
 void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
 	t_hitinfo *info);
 void	render(t_rt *rt);
+t_vec3	calc_ray_dir(t_rt *rt, int i, int j);
+t_hitinfo	cast_ray(t_rt *rt, t_vec3 ray_dir, int i, int j);
+
 
 //debug
 void	print_debug(void *comp, t_component_type type);

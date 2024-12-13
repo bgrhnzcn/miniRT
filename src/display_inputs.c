@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_inputs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 23:59:42 by bgrhnzcn          #+#    #+#             */
-/*   Updated: 2024/12/01 03:18:44 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:56:19 by buozcan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,17 @@ int	key_release(int keycode, t_rt *rt)
 
 int	mouse_press(int button, int x, int y, t_rt *rt)
 {
-	(void)button;
-	(void)x;
-	(void)y;
-	(void)rt;
-	printf("Mouse pressed. Button %d\n", button);
-	printf("Mouse position: x: %d, y: %d\n", x, y);
+	t_hitinfo	info;
+
+	if (button == 1)
+	{
+		printf("Mouse position: x: %d, y: %d\n", x, y);
+		info = cast_ray(rt, calc_ray_dir(rt, x, y), x, y);
+		printf("normal: %f, %f, %f\npoint: %f, %f, %f\ncolor: %f, %f, %f\ndist: %f\n",
+			info.normal.x, info.normal.y, info.normal.z,
+			info.point.x, info.point.y, info.point.z,
+			info.color.r, info.color.g, info.color.b, info.dist);
+	}
 	return (0);
 }
 
