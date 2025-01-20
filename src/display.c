@@ -57,6 +57,6 @@ int	terminate_display(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
 	mlx_destroy_window(mlx->mlx, mlx->win.win);
-	free(mlx->mlx);
+	mlx_destroy_display(mlx->mlx);
 	return (EXIT_SUCCESS);
 }

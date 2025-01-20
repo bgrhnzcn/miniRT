@@ -55,17 +55,25 @@ int	key_release(int keycode, t_rt *rt)
 
 int	mouse_press(int button, int x, int y, t_rt *rt)
 {
-	t_hitinfo	info;
+	t_hitinfo		info;
 
 	if (button == 1)
 	{
-		printf("Mouse position: x: %d, y: %d\n", x, y);
 		info = cast_ray(rt, calc_ray_dir(rt, x, y), x, y);
-		printf("normal: %f, %f, %f\npoint: %f, %f, %f\ncolor: %f, %f, %f\ndist: %f\n",
-			info.normal.x, info.normal.y, info.normal.z,
-			info.point.x, info.point.y, info.point.z,
-			info.color.r, info.color.g, info.color.b, info.dist);
+		if (!info.is_hit)
+			return (0);
+		if (rt->selected != NULL)
+			rt->selected->color = rt->temp_color;
+		rt->selected = info.ref;
+		rt->temp_color = rt->selected->color;
+		rt->selected->color = ft_set_color(255, 255, 255, 255);
 	}
+	if (button == 2)
+	{
+		if (rt->selected != NULL)
+			rt->selected->color = rt->temp_color;
+		rt->selected = NULL;
+	}	
 	return (0);
 }
 
@@ -75,7 +83,5 @@ int	mouse_release(int button, int x, int y, t_rt *rt)
 	(void)x;
 	(void)y;
 	(void)rt;
-	printf("Mouse released. Button %d\n", button);
-	printf("Mouse position: x: %d, y: %d\n", x, y);
 	return (0);
 }

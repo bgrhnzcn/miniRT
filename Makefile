@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-TEST_FILE = scenes/deneme.rt
+TEST_FILE = scenes/lightTest.rt
 
 ################################################################################
 #                                                                              #
@@ -54,7 +54,7 @@ PLACE_HOLDER = .place_holder
 NAME = miniRT
 
 # Compiler
-CC = gcc
+CC = cc
 
 # Compiler Flags
 CFLAGS = -g -Wall -Wextra -Werror -O3
@@ -63,7 +63,7 @@ CFLAGS = -g -Wall -Wextra -Werror -O3
 MAKEFLAGS += --no-print-directory
 
 # Include Directories
-INCLUDES = -I$(MLX_DIR) -I$(GNL_DIR) -I$(LIBFT_DIR) -I$(INC)
+INCLUDES = -I $(MLX_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -I $(INC)
 
 ifeq ($(shell whoami), bgrhnzcn)
 DEFINES = -D WIDTH=800 -D HEIGHT=800
@@ -113,7 +113,7 @@ SRCS = $(SRC)/main.c \
 	   $(SRC)/u_component.c \
 	   $(SRC)/darray.c \
 	   $(SRC)/shape.c \
-#	   $(SRC)/gui.c \
+	   $(SRC)/utils.c \
 
 # Object Directory Creation
 $(OBJ):
@@ -146,7 +146,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 # Libft Compilation Command
 LIBFT_COMP = awk '{ \
 		if ($$1 == "FAIL") { exit 1} \
-		else if ($$1 == "gcc"){ printf "\t$(BOLD_WHITE)%9s $(BOLD_CYAN)%-30s $(BOLD_GREEN)%-4s\r$(RESET)", "Compiling" , $$9, "[OK]" } \
+		else if ($$1 == "$(CC)"){ printf "\t$(BOLD_WHITE)%9s $(BOLD_CYAN)%-30s $(BOLD_GREEN)%-4s\r$(RESET)", "Compiling" , $$9, "[OK]" } \
 		fflush() }' <(USE_MATH=TRUE make  2>/dev/null || echo "FAIL");\
 	if [ $$? -eq 1 ]; then \
 		awk 'BEGIN{ printf "\t$(BOLD_RED)%9s $(BOLD_CYAN)%-14s $(BOLD_RED)%-4s\n$(RESET)", "Libft Compilation Failed!" , NULL, "[KO]" }'; \
@@ -179,7 +179,7 @@ GNL = $(GNL_DIR)/get_next_line.a
 # Get Next Line Compilation Command
 GNL_COMP = awk '{ \
 		if ($$1 == "FAIL") { exit 1} \
-		else if ($$1 == "gcc") { printf "\t$(BOLD_GREEN)%9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\r$(RESET)", "Compiling" , $$1, "[OK]" } \
+		else if ($$1 == "$(CC)") { printf "\t$(BOLD_GREEN)%9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\r$(RESET)", "Compiling" , $$1, "[OK]" } \
 		fflush() }' <(make 2>/dev/null || echo "FAIL");\
 	if [ $$? -eq 1 ]; then \
 		awk 'BEGIN{ printf "\t$(BOLD_RED)%9s $(BOLD_BLUE)%-14s $(BOLD_RED)%-4s\n$(RESET)", "GNL Compilation Failed!" , NULL, "[KO]" }'; \
@@ -232,7 +232,7 @@ endif # Common
 # Get Next Line Compilation Command
 MLX_COMP = awk '{ \
 		if ($$1 == "FAIL") { exit 1} \
-		else if ($$1 == "gcc") { printf "\t$(BOLD_GREEN)%9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\r$(RESET)", "Compiling" , $$5, "[OK]" } \
+		else if ($$1 == "$(CC)") { printf "\t$(BOLD_GREEN)%9s $(BOLD_BLUE)%-30s $(BOLD_GREEN)%-4s\r$(RESET)", "Compiling" , $$5, "[OK]" } \
 		fflush() }' <(make -j16 2> /dev/null || echo "FAIL");\
 	if [ $$? -eq 1 ]; then \
 		awk 'BEGIN{ printf "\t$(BOLD_RED)%9s $(BOLD_BLUE)%-14s $(BOLD_RED)%-4s\n$(RESET)", "MiniLibX Compilation Failed!" , NULL, "[KO]" }'; \

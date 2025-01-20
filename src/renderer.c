@@ -69,6 +69,8 @@ void	sphere_intersect(t_rt *rt, t_shape *sphere, t_vec3 ray_dir,
 	info->normal = ft_vec3_norm(ft_vec3_sub(info->point, sphere->pos));
 	info->color = sphere->color;
 	info->is_hit = true;
+	info->type = Sphere;
+	info->ref = sphere;
 }
 //(nx*dirx + ny*diry + nz*dirz) * t + nx*ax + ny*ay + nz*az = 0
 void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
@@ -88,7 +90,8 @@ void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
 	info->normal = plane->normal;
 	info->color = plane->color;
 	info->is_hit = true;
-	info->is_plane = true;
+	info->type = Plane;
+	info->ref = plane;
 }
 
 void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
@@ -116,6 +119,8 @@ void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
 	info->normal = g_vec3_i;
 	info->color = cylinder->color;
 	info->is_hit = true;
+	info->type = Cylinder;
+	info->ref = cylinder;
 }
 
 t_hitinfo	check_intersections(t_rt *rt, t_vec3 pos, t_vec3 ray_dir)
@@ -148,10 +153,11 @@ void	calc_light(t_rt *rt, t_hitinfo *hitinfo)
 
 	dir = ft_vec3_norm(ft_vec3_sub(rt->scene.light.pos, hitinfo->point));
 	//printf("dir: %f, %f; point: %f, %f\n", dir.x, dir.y, hitinfo->point.x, hitinfo->point.y);
-	if (!check_intersections(rt, hitinfo->point, dir).is_hit)
+	t_hitinfo inf = check_intersections(rt, hitinfo->point, dir);
+	if (!inf.is_hit)
 	{
 		angle = ft_vec3_dot(dir, hitinfo->normal);
-		if (angle < rt->scene.ambient.strength && hitinfo->is_plane)
+		if (hitinfo->type == Plane)
 		{
 			hitinfo->normal = ft_vec3_mul(hitinfo->normal, -1);
 			angle = ft_vec3_dot(dir, hitinfo->normal);

@@ -52,3 +52,10 @@ void	free_darray(t_darray *darray)
 	free(darray->data);
 	free(darray);
 }
+
+void		*get_darray(t_darray *darray, unsigned int index)
+{
+	if ((int)index >= darray->size)
+		return (NULL);
+	return (darray->data + (darray->type_size * index));
+}

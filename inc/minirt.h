@@ -9,7 +9,6 @@
 
 # include <mlx.h>
 # include <libft.h>
-# include <gui.h>
 # include <get_next_line.h>
 # include <darray.h>
 
@@ -91,14 +90,17 @@ typedef struct s_check
 	t_bool		light;
 }	t_check;
 
+typedef struct s_shape t_shape;
+
 typedef struct s_hitinfo
 {
-	t_vec3	normal;
-	t_vec3	point;
-	t_color	color;
-	float	dist;
-	t_bool	is_hit;
-	t_bool	is_plane;
+	t_vec3			normal;
+	t_vec3			point;
+	t_color			color;
+	float			dist;
+	t_bool			is_hit;
+	t_shape_type	type;
+	t_shape			*ref;
 }	t_hitinfo;
 
 typedef struct s_renderer
@@ -117,7 +119,8 @@ typedef struct s_rt
 	t_timer		timer;
 	t_bool		key_states[MAX_KEY_COUNT];
 	t_renderer	renderer;
-	t_gui		*gui;
+	t_shape		*selected;
+	t_color		temp_color;
 }	t_rt;
 
 typedef struct s_shape
@@ -147,62 +150,63 @@ typedef struct s_shape
 }	t_shape;
 
 //utils
-int		count_dpointer(char **str);
-void	free_dpointer(char **str);
-float	ft_atof(char *str);
-int		cntrl_nbr(char *str);
-int		parse_color(t_color *color, char *line);
-int		parse_vec3(t_vec3 *vec3, char *line);
+int			count_dpointer(char **str);
+void		free_dpointer(char **str);
+float		ft_atof(char *str);
+int			cntrl_nbr(char *str);
+int			parse_color(t_color *color, char *line);
+int			parse_vec3(t_vec3 *vec3, char *line);
+t_vec3		vec_rot_around(t_vec3 vec, t_vec3 axis, float angle);
 
 //scene
-int		read_scene(t_rt *rt);
-int		parse_scene(t_rt *rt);
-int		control_extension(char *path);
+int			read_scene(t_rt *rt);
+int			parse_scene(t_rt *rt);
+int			control_extension(char *path);
 
 //component
-int		parse_ambient(t_rt *rt, char *line);
-int		parse_camera(t_rt *rt, char *line);
-int		parse_light(t_rt *rt, char *line);
+int			parse_ambient(t_rt *rt, char *line);
+int			parse_camera(t_rt *rt, char *line);
+int			parse_light(t_rt *rt, char *line);
 
 //u_component
-int		parse_sphere(t_rt *rt, char *line);
-int		parse_plane(t_rt *rt, char *line);
-int		parse_cylinder(t_rt *rt, char *line);
+int			parse_sphere(t_rt *rt, char *line);
+int			parse_plane(t_rt *rt, char *line);
+int			parse_cylinder(t_rt *rt, char *line);
 
 //display
-int		init_display(t_rt *rt);
-int		terminate_display(t_mlx *mlx);
+int			init_display(t_rt *rt);
+int			terminate_display(t_mlx *mlx);
 
 //display_inputs
-int		terminate_program(t_rt *rt);
-int		key_press(int keycode, t_rt *rt);
-int		key_release(int keycode, t_rt *rt);
-int		mouse_press(int button, int x, int y, t_rt *rt);
-int		mouse_release(int button, int x, int y, t_rt *rt);
+int			terminate_program(t_rt *rt);
+int			key_press(int keycode, t_rt *rt);
+int			key_release(int keycode, t_rt *rt);
+int			mouse_press(int button, int x, int y, t_rt *rt);
+int			mouse_release(int button, int x, int y, t_rt *rt);
 
 //update
-int		update_frame(t_rt *rt);
+int			update_frame(t_rt *rt);
 
 //shape
-t_shape	*init_sphere();
-t_shape	*init_plane();
-t_shape	*init_cylinder();
+t_shape		*init_sphere();
+t_shape		*init_plane();
+t_shape		*init_cylinder();
 
 //render
-void	sphere_intersect(t_rt *rt, t_shape *sphere, t_vec3 ray_dir,
+void		sphere_intersect(t_rt *rt, t_shape *sphere, t_vec3 ray_dir,
 	t_hitinfo *info);
-void	plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
+void		plane_intersect(t_rt *rt, t_shape *plane, t_vec3 ray_dir,
 	t_hitinfo *info);
-void	cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
+void		cylinder_intersect(t_rt *rt, t_shape *cylinder, t_vec3 ray_dir,
 	t_hitinfo *info);
-void	render(t_rt *rt);
-t_vec3	calc_ray_dir(t_rt *rt, int i, int j);
+void		render(t_rt *rt);
+t_vec3		calc_ray_dir(t_rt *rt, int i, int j);
 t_hitinfo	cast_ray(t_rt *rt, t_vec3 ray_dir, int i, int j);
 
 
 //debug
-void	print_debug(void *comp, t_component_type type);
-void	display_debug_time(t_rt *rt);
-void	debug_print_scene(t_rt *rt);
+void		print_debug(void *comp, t_component_type type);
+void		display_debug_time(t_rt *rt);
+void		debug_print_scene(t_rt *rt);
 
 #endif

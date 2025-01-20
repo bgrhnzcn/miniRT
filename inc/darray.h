@@ -23,6 +23,7 @@ typedef struct s_darray
 	int		size;
 }	t_darray;
 
+void		*get_darray(t_darray *darray, unsigned int index);
 t_darray	*init_darray(int capacity, int type_size);
 int			push_darray(t_darray *darray, void *data);
 void		free_darray(t_darray *darray);
